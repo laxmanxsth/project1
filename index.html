@@ -5,88 +5,122 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <meta name="apple-mobile-web-app-capable" content="yes">
   <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Todo App">
-  <title>Todo App</title>
+  <meta name="apple-mobile-web-app-title" content="Todo">
+  <title>Todo</title>
   <style>
     * { margin: 0; padding: 0; box-sizing: border-box; }
     body {
       font-family: -apple-system, sans-serif;
-      background: #1a1a2e;
+      background: #000;
       color: white;
       min-height: 100vh;
       padding: 20px;
     }
-    h1 {
-      text-align: center;
-      margin-bottom: 20px;
-      font-size: 28px;
-      color: #e94560;
-    }
-    .input-area {
+    .header {
       display: flex;
-      gap: 10px;
-      margin-bottom: 20px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 30px;
+      padding-top: 10px;
     }
-    input {
-      flex: 1;
-      padding: 12px;
-      border-radius: 10px;
+    .header button {
+      background: none;
       border: none;
-      background: #16213e;
       color: white;
-      font-size: 16px;
-    }
-    button {
-      padding: 12px 20px;
-      background: #e94560;
-      color: white;
-      border: none;
-      border-radius: 10px;
-      font-size: 16px;
+      font-size: 20px;
       cursor: pointer;
     }
-    .task {
+    .done-btn {
+      background: #FFD60A !important;
+      color: black !important;
+      border-radius: 50% !important;
+      width: 36px;
+      height: 36px;
+      font-size: 16px !important;
       display: flex;
       align-items: center;
-      background: #16213e;
-      padding: 15px;
-      border-radius: 10px;
-      margin-bottom: 10px;
-      gap: 10px;
+      justify-content: center;
     }
-    .task span {
+    .task-list {
+      list-style: none;
+    }
+    .task-item {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 14px 0;
+      border-bottom: 1px solid #222;
+    }
+    .circle {
+      width: 26px;
+      height: 26px;
+      border-radius: 50%;
+      border: 2px solid #555;
+      cursor: pointer;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+    .circle.checked {
+      background: #FFD60A;
+      border-color: #FFD60A;
+      color: black;
+      font-size: 14px;
+    }
+    .task-text {
       flex: 1;
-      font-size: 16px;
+      font-size: 17px;
+      outline: none;
+      background: none;
+      border: none;
+      color: white;
     }
-    .task.done span {
+    .task-text.done {
       text-decoration: line-through;
-      opacity: 0.5;
+      color: #555;
     }
-    .delete {
-      background: #e94560;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 14px;
+    .delete-btn {
+      background: none;
+      border: none;
+      color: #555;
+      font-size: 20px;
+      cursor: pointer;
     }
-    .check {
-      background: #0f3460;
-      padding: 6px 12px;
-      border-radius: 8px;
-      font-size: 14px;
+    .new-task {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+      padding: 14px 0;
     }
+    .new-task input {
+      flex: 1;
+      background: none;
+      border: none;
+      color: #555;
+      font-size: 17px;
+      outline: none;
+    }
+    .new-task input::placeholder { color: #555; }
   </style>
 </head>
 <body>
-  <h1>p  <div class="input-area">
-    <input type="text" id="taskInput" placeholder="Add a new task..." />
-    <button onclick="addTask()">Add</button>
+  <div class="header">
+    <button>b
+9    </div>
+    <div style="display:flex; gap:10px;">
+      <button>B7B7B7    </div>
+      <button class="done-btn">bss="task-list" id="taskList"></ul>
+
+  <div class="new-task">
+    <div class="circle"></div>
+    <input type="text" id="taskInput" placeholder="New item" />
   </div>
-  <div id="taskList"></div>
 
   <script>
     let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
 
-    function saveTasks() {
+    function save() {
       localStorage.setItem("tasks", JSON.stringify(tasks));
     }
 
@@ -95,31 +129,32 @@
       list.innerHTML = "";
       tasks.forEach((task, i) => {
         list.innerHTML += `
-          <div class="task ${task.done ? 'done' : ''}">
-            <span>${task.text}</span>
-            <button class="check" onclick="toggleTask(${i})">bction addTask() {
-      const input = document.getElementById("taskInput");
-      if (input.value.trim() === "") return;
-      tasks.push({ text: input.value, done: false });
-      input.value = "";
-      saveTasks();
-      render();
+          <li class="task-item">
+            <div class="circle ${task.done ? 'checked            </div>" onclick="toggle(${i})">
+              ${task.done ? 'bn class="task-text ${task.done ? 'done' : ''}">${task.text}</span>
+            <button class="delete-btn" onclick="remove(${i})">C          </li>`;
+      });
     }
 
-    function toggleTask(i) {
+    function toggle(i) {
       tasks[i].done = !tasks[i].done;
-      saveTasks();
-      render();
+      save(); render();
     }
 
-    function deleteTask(i) {
+    function remove(i) {
       tasks.splice(i, 1);
-      saveTasks();
-      render();
+      save(); render();
     }
+
+    document.getElementById("taskInput").addEventListener("keydown", function(e) {
+      if (e.key === "Enter" && this.value.trim()) {
+        tasks.push({ text: this.value.trim(), done: false });
+        this.value = "";
+        save(); render();
+      }
+    });
 
     render();
   </script>
 </body>
 </html>
-
