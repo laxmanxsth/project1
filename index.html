@@ -1,161 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="apple-mobile-web-app-capable" content="yes">
-  <meta name="apple-mobile-web-app-status-bar-style" content="black">
-  <meta name="apple-mobile-web-app-title" content="Todo">
-  <title>Todo</title>
-  <style>
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body {
-      font-family: -apple-system, sans-serif;
-      background: #000;
-      color: white;
-      min-height: 100vh;
-      padding: 20px;
-    }
-    .header {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      margin-bottom: 30px;
-      padding-top: 10px;
-    }
-    .header button {
-      background: none;
-      border: none;
-      color: white;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    .done-btn {
-      background: #FFD60A !important;
-      color: black !important;
-      border-radius: 50% !important;
-      width: 36px;
-      height: 36px;
-      font-size: 16px !important;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .task-list {
-      list-style: none;
-    }
-    .task-item {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 14px 0;
-      border-bottom: 1px solid #222;
-    }
-    .circle {
-      width: 26px;
-      height: 26px;
-      border-radius: 50%;
-      border: 2px solid #555;
-      cursor: pointer;
-      flex-shrink: 0;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    .circle.checked {
-      background: #FFD60A;
-      border-color: #FFD60A;
-      color: black;
-      font-size: 14px;
-    }
-    .task-text {
-      flex: 1;
-      font-size: 17px;
-      outline: none;
-      background: none;
-      border: none;
-      color: white;
-    }
-    .task-text.done {
-      text-decoration: line-through;
-      color: #555;
-    }
-    .delete-btn {
-      background: none;
-      border: none;
-      color: #555;
-      font-size: 20px;
-      cursor: pointer;
-    }
-    .new-task {
-      display: flex;
-      align-items: center;
-      gap: 15px;
-      padding: 14px 0;
-    }
-    .new-task input {
-      flex: 1;
-      background: none;
-      border: none;
-      color: #555;
-      font-size: 17px;
-      outline: none;
-    }
-    .new-task input::placeholder { color: #555; }
-  </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<title>Todo</title>
+<style>
+*{margin:0;padding:0;box-sizing:border-box}
+body{font-family:-apple-system,sans-serif;background:#000;color:white;padding:20px}
+.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
+.header button{background:none;border:none;color:white;font-size:20px}
+.done-btn{background:#FFD60A!important;color:black!important;border-radius:50%!important;width:36px;height:36px}
+.task-list{list-style:none}
+.task-item{display:flex;align-items:center;gap:15px;padding:14px 0;border-bottom:1px solid #222}
+.circle{width:26px;height:26px;border-radius:50%;border:2px solid #555;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
+.circle.checked{background:#FFD60A;border-color:#FFD60A;color:black;font-size:14px}
+.task-text{flex:1;font-size:17px;color:white}
+.task-text.done{text-decoration:line-through;color:#555}
+.delete-btn{background:none;border:none;color:#555;font-size:20px;cursor:pointer}
+.new-task{display:flex;align-items:center;gap:15px;padding:14px 0}
+.new-task input{flex:1;background:none;border:none;color:white;font-size:17px;outline:none}
+</style>
 </head>
 <body>
-  <div class="header">
-    <button>b
-9    </div>
-    <div style="display:flex; gap:10px;">
-      <button>B7B7B7    </div>
-      <button class="done-btn">bss="task-list" id="taskList"></ul>
-
-  <div class="new-task">
-    <div class="circle"></div>
-    <input type="text" id="taskInput" placeholder="New item" />
-  </div>
-
-  <script>
-    let tasks = JSON.parse(localStorage.getItem("tasks")) || [];
-
-    function save() {
-      localStorage.setItem("tasks", JSON.stringify(tasks));
-    }
-
-    function render() {
-      const list = document.getElementById("taskList");
-      list.innerHTML = "";
-      tasks.forEach((task, i) => {
-        list.innerHTML += `
-          <li class="task-item">
-            <div class="circle ${task.done ? 'checked            </div>" onclick="toggle(${i})">
-              ${task.done ? 'bn class="task-text ${task.done ? 'done' : ''}">${task.text}</span>
-            <button class="delete-btn" onclick="remove(${i})">C          </li>`;
-      });
-    }
-
-    function toggle(i) {
-      tasks[i].done = !tasks[i].done;
-      save(); render();
-    }
-
-    function remove(i) {
-      tasks.splice(i, 1);
-      save(); render();
-    }
-
-    document.getElementById("taskInput").addEventListener("keydown", function(e) {
-      if (e.key === "Enter" && this.value.trim()) {
-        tasks.push({ text: this.value.trim(), done: false });
-        this.value = "";
-        save(); render();
-      }
-    });
-
-    render();
-  </script>
+<div class="header">
+<button>&#8249;</button>
+<div style="display:flex;gap:10px">
+<button>&#8943;</button>
+<button class="done-btn">&#10003;</button>
+</div>
+</div>
+<ul class="task-list" id="taskList"></ul>
+<div class="new-task">
+<div class="circle"></div>
+<input type="text" id="taskInput" placeholder="New item">
+</div>
+<script>
+var tasks=JSON.parse(localStorage.getItem("tasks"))||[];
+function save(){localStorage.setItem("tasks",JSON.stringify(tasks));}
+function render(){
+var list=document.getElementById("taskList");
+list.innerHTML="";
+tasks.forEach(function(task,i){
+list.innerHTML+='<li class="task-item"><div class="circle'+(task.done?" checked":"")+'" onclick="toggle('+i+')">'+(task.done?"b}
+function toggle(i){tasks[i].done=!tasks[i].done;save();render();}
+function remove(i){tasks.splice(i,1);save();render();}
+document.getElementById("taskInput").addEventListener("keydown",function(e){
+if(e.key==="Enter"&&this.value.trim()){
+tasks.push({text:this.value.trim(),done:false});
+this.value="";save();render();
+}
+});
+render();
+</script>
 </body>
 </html>
 
