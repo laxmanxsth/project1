@@ -6,52 +6,306 @@
 <meta name="apple-mobile-web-app-capable" content="yes">
 <title>Todo</title>
 <style>
-*{margin:0;padding:0;box-sizing:border-box}
-body{font-family:-apple-system,sans-serif;background:#000;color:white;padding:20px}
-.header{display:flex;justify-content:space-between;align-items:center;margin-bottom:30px}
-.header button{background:none;border:none;color:white;font-size:20px}
-.done-btn{background:#FFD60A!important;color:black!important;border-radius:50%!important;width:36px;height:36px}
-.task-list{list-style:none}
-.task-item{display:flex;align-items:center;gap:15px;padding:14px 0;border-bottom:1px solid #222}
-.circle{width:26px;height:26px;border-radius:50%;border:2px solid #555;cursor:pointer;flex-shrink:0;display:flex;align-items:center;justify-content:center}
-.circle.checked{background:#FFD60A;border-color:#FFD60A;color:black;font-size:14px}
-.task-text{flex:1;font-size:17px;color:white}
-.task-text.done{text-decoration:line-through;color:#555}
-.delete-btn{background:none;border:none;color:#555;font-size:20px;cursor:pointer}
-.new-task{display:flex;align-items:center;gap:15px;padding:14px 0}
-.new-task input{flex:1;background:none;border:none;color:white;font-size:17px;outline:none}
+    *{
+        box-sizing: border-box;
+        margin: 0;
+        padding: 0;
+    }
+    body {
+    background: #000;
+    color: #fff;
+    font-family: -apple-system, sans-serif;
+    font-size: 19px;
+    min-height: 100vh;
+    padding: 24px 20px 80px;
+    }
+
+    .section-title {
+        font-size: 12px;
+        color: #555;
+        text-transform: uppercase;
+        letter-spacing: 0.12em;
+        margin: 28px 0 10px;
+    }
+
+    ul{
+    list-style: none;
+    }
+    li{
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px 0;
+    border-bottom: 1px solid #1a1a1a;
+    }
+    .circle {
+width: 26px; height: 26px;
+border-radius: 50%;
+border: 2px solid #444;
+flex-shrink: 0;
+cursor: pointer;
+display: flex; align-items: center; justify-content: center;
+transition: background 0.15s, border-color 0.15s;
+}
+li.done .circle { background: #f5c400; border-color: #f5c400; }
+li.done .circle::after { content: '✓'; font-size: 13px; color: #000; font-weight: 700; }
+.task-text {
+flex: 1; outline: none; background: none;
+color: #fff; font-size: 19px;
+font-family: -apple-system, sans-serif; border: none; min-width: 0;
+}
+li.done .task-text { color: #555; text-decoration: line-through; }
+.del-btn {
+background: none; border: none;
+color: #333; font-size: 22px;
+cursor: pointer; padding: 0 4px; line-height: 1;
+transition: color 0.15s;
+}
+.del-btn:hover { color: #e74c3c; }
+.add-row {
+display: flex; align-items: center;
+gap: 14px; padding: 10px 0;
+}
+.add-row .circle { border-color: #222; cursor: default; }
+#taskInput {
+flex: 1; background: none; border: none; outline: none;
+color: #f5c400; font-size: 19px;
+font-family: -apple-system, sans-serif;
+caret-color: #f5c400;
+}
+#taskInput::placeholder { color: #2e2e2e; }
+.remaining { font-size: 12px; color: #3a3a3a; margin-top: 4px; }
+
+.notes-grid {
+display: grid;
+grid-template-columns: 1fr 1fr;
+gap: 12px;
+margin-top: 4px;
+}
+
+.note-card {
+border-radius: 12px;
+padding: 14px;
+position: relative;
+min-height: 130px;
+display: flex;
+flex-direction: column;
+gap: 6px;
+animation: popIn 0.2s ease;
+}
+@keyframes popIn {
+from { opacity: 0; transform: scale(0.94); }
+to { opacity: 1; transform: scale(1); }
+}
+
+/* Alternating warm paper colours */
+.note-card:nth-child(4n+1) { background: #2b2200; border: 1px solid #3d3000; }
+.note-card:nth-child(4n+2) { background: #1a2200; border: 1px solid #293300; }
+.note-card:nth-child(4n+3) { background: #001a22; border: 1px solid #002933; }
+.note-card:nth-child(4n+0) { background: #220016; border: 1px solid #330022; }
+
+.note-title {
+font-size: 13px;
+font-weight: 600;
+color: #888;
+background: none;
+border: none;
+outline: none;
+width: 100%;
+font-family: -apple-system, sans-serif;
+caret-color: #f5c400;
+}
+.note-title::placeholder { color: #3a3a3a; }
+
+.note-body {
+flex: 1;
+font-size: 14px;
+line-height: 1.6;
+background: none;
+border: none;
+outline: none;
+resize: none;
+width: 100%;
+min-height: 80px;
+font-family: -apple-system, sans-serif;
+caret-color: #f5c400;
+}
+.note-card:nth-child(4n+1) .note-body,
+.note-card:nth-child(4n+1) .note-title { color: #e8d87a; }
+.note-card:nth-child(4n+2) .note-body,
+.note-card:nth-child(4n+2) .note-title { color: #a8d87a; }
+.note-card:nth-child(4n+3) .note-body,
+.note-card:nth-child(4n+3) .note-title { color: #7abed8; }
+.note-card:nth-child(4n+0) .note-body,
+.note-card:nth-child(4n+0) .note-title { color: #d87ab4; }
+
+.note-body::placeholder,
+.note-title::placeholder { color: #2e2e2e; }
+
+.note-del {
+position: absolute;
+top: 8px; right: 10px;
+background: none; border: none;
+color: #333; font-size: 18px;
+cursor: pointer; line-height: 1;
+transition: color 0.15s;
+}
+.note-del:hover { color: #e74c3c; }
+
+.note-date {
+font-size: 11px;
+color: #3a3a3a;
+margin-top: 4px;
+}
+
+.add-note-btn {
+display: flex;
+align-items: center;
+gap: 8px;
+background: none;
+border: 1px dashed #2a2a2a;
+color: #444;
+font-size: 14px;
+font-family: -apple-system, sans-serif;
+border-radius: 12px;
+padding: 12px 16px;
+cursor: pointer;
+width: 100%;
+margin-top: 12px;
+transition: border-color 0.15s, color 0.15s;
+}
+.add-note-btn:hover { border-color: #f5c400; color: #f5c400; }
+.add-note-btn span { font-size: 20px; line-height: 1; }
+
 </style>
+
+
 </head>
 <body>
-<div class="header">
-<button>&#8249;</button>
-<div style="display:flex;gap:10px">
-<button>&#8943;</button>
-<button class="done-btn">&#10003;</button>
-</div>
-</div>
-<ul class="task-list" id="taskList"></ul>
-<div class="new-task">
+<div class="section-title">Tasks</div>
+<ul id="list"></ul>
+<div class="add-row">
 <div class="circle"></div>
-<input type="text" id="taskInput" placeholder="New item">
+<input id="taskInput" type="text" placeholder="New item" autofocus/>
 </div>
+<div class="remaining" id="remaining"></div>
+
+<div class="section-title">Notes</div>
+<div class="notes-grid" id="notesGrid"></div>
+<button class="add-note-btn" id="addNoteBtn"><span>+</span> New Note</button>
 <script>
-var tasks=JSON.parse(localStorage.getItem("tasks"))||[];
-function save(){localStorage.setItem("tasks",JSON.stringify(tasks));}
-function render(){
-var list=document.getElementById("taskList");
-list.innerHTML="";
-tasks.forEach(function(task,i){
-list.innerHTML+='<li class="task-item"><div class="circle'+(task.done?" checked":"")+'" onclick="toggle('+i+')">'+(task.done?"b}
-function toggle(i){tasks[i].done=!tasks[i].done;save();render();}
-function remove(i){tasks.splice(i,1);save();render();}
-document.getElementById("taskInput").addEventListener("keydown",function(e){
-if(e.key==="Enter"&&this.value.trim()){
-tasks.push({text:this.value.trim(),done:false});
-this.value="";save();render();
+const listEl = document.getElementById('list');
+const input = document.getElementById('taskInput');
+const remainingEl = document.getElementById('remaining');
+const notesGrid = document.getElementById('notesGrid');
+const addNoteBtn = document.getElementById('addNoteBtn');
+
+let tasks = JSON.parse(localStorage.getItem('tasks') || '[]');
+let notes = JSON.parse(localStorage.getItem('notes') || '[]');
+
+function saveTasks() { localStorage.setItem('tasks', JSON.stringify(tasks)); }
+function saveNotes() { localStorage.setItem('notes', JSON.stringify(notes)); }
+
+// ── Tasks ──
+input.addEventListener('keydown', e => { if (e.key === 'Enter') addTask(); });
+
+function updateRemaining() {
+const left = tasks.filter(t => !t.done).length;
+remainingEl.textContent = tasks.length ? `${left} remaining` : '';
 }
+
+function renderTasks() {
+listEl.innerHTML = '';
+tasks.forEach((t, i) => {
+const li = document.createElement('li');
+if (t.done) li.classList.add('done');
+
+const circle = document.createElement('div');
+circle.className = 'circle';
+circle.onclick = () => { tasks[i].done = !tasks[i].done; saveTasks(); renderTasks(); };
+
+const span = document.createElement('span');
+span.className = 'task-text';
+span.contentEditable = true;
+span.textContent = t.text;
+span.addEventListener('input', () => { tasks[i].text = span.textContent; saveTasks(); });
+span.addEventListener('keydown', e => { if (e.key === 'Enter') { e.preventDefault(); input.focus(); } });
+
+const del = document.createElement('button');
+del.className = 'del-btn';
+del.textContent = '×';
+del.onclick = () => { tasks.splice(i, 1); saveTasks(); renderTasks(); };
+
+li.append(circle, span, del);
+listEl.appendChild(li);
 });
-render();
+updateRemaining();
+}
+
+function addTask() {
+const text = input.value.trim();
+if (!text) return;
+tasks.push({ text, done: false });
+input.value = '';
+saveTasks(); renderTasks();
+}
+
+// ── Notes ──
+function renderNotes() {
+notesGrid.innerHTML = '';
+notes.forEach((n, i) => {
+const card = document.createElement('div');
+card.className = 'note-card';
+
+const delBtn = document.createElement('button');
+delBtn.className = 'note-del';
+delBtn.textContent = '×';
+delBtn.onclick = () => { notes.splice(i, 1); saveNotes(); renderNotes(); };
+
+const titleEl = document.createElement('input');
+titleEl.className = 'note-title';
+titleEl.type = 'text';
+titleEl.placeholder = 'Title';
+titleEl.value = n.title || '';
+titleEl.addEventListener('input', () => { notes[i].title = titleEl.value; saveNotes(); });
+
+const bodyEl = document.createElement('textarea');
+bodyEl.className = 'note-body';
+bodyEl.placeholder = 'Note…';
+bodyEl.value = n.body || '';
+bodyEl.addEventListener('input', () => {
+notes[i].body = bodyEl.value;
+saveNotes();
+// auto-grow
+bodyEl.style.height = 'auto';
+bodyEl.style.height = bodyEl.scrollHeight + 'px';
+});
+
+const dateEl = document.createElement('div');
+dateEl.className = 'note-date';
+dateEl.textContent = n.date || '';
+
+card.append(delBtn, titleEl, bodyEl, dateEl);
+notesGrid.appendChild(card);
+
+// set initial height
+bodyEl.style.height = 'auto';
+bodyEl.style.height = bodyEl.scrollHeight + 'px';
+});
+}
+
+addNoteBtn.onclick = () => {
+const now = new Date().toLocaleDateString('en-US', { month:'short', day:'numeric', year:'numeric' });
+notes.push({ title: '', body: '', date: now });
+saveNotes(); renderNotes();
+// focus the new note's body
+const cards = notesGrid.querySelectorAll('.note-card');
+const last = cards[cards.length - 1];
+if (last) last.querySelector('.note-body').focus();
+};
+
+renderTasks();
+renderNotes();
 </script>
 </body>
 </html>
